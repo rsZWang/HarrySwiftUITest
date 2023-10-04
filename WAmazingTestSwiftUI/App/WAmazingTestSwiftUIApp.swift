@@ -11,7 +11,7 @@ import SwiftUI
 struct WAmazingTestSwiftUIApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            LauncherView()
         }
     }
 }

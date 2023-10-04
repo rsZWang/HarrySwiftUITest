@@ -1,0 +1,10 @@
+/* 
+  Localizable.strings
+  WAmazingTestSwiftUI
+
+  Created by Harry on 2023/10/4.
+  
+*/
+
+"top_view_button_airport" = "空港リスト";
+"top_view_button_product" = "商品ページ";
