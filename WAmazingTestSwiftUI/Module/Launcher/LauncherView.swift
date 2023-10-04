@@ -11,7 +11,6 @@ struct LauncherView: View {
     
     @State private var topTextOpacity = 0.0
     @State private var middleTextOpacity = 0.0
-    @State private var bottomTextOpacity = 0.0
     @State private var presentTopView = false
     
     var body: some View {
@@ -20,14 +19,10 @@ struct LauncherView: View {
                 .font(.system(size: 20, weight: .bold))
                 .opacity(topTextOpacity)
             
-            Text("SwiftUI")
-                .font(.system(size: 18, weight: .medium))
+            Text("SwiftUI Test")
+                .font(.system(size: 16, weight: .medium))
                 .padding(10)
                 .opacity(middleTextOpacity)
-
-            Text("Test")
-                .font(.system(size: 18))
-                .opacity(bottomTextOpacity)
         }
         .onAppear {
             withAnimation(.easeInOut(duration: 1.0)) {
@@ -35,9 +30,6 @@ struct LauncherView: View {
             }
             withAnimation(.easeInOut(duration: 0.5).delay(1.0)) {
                 middleTextOpacity = 1.0
-            }
-            withAnimation(.easeInOut(duration: 0.5).delay(1.5)) {
-                bottomTextOpacity = 1.0
             }
             DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                 presentTopView = true

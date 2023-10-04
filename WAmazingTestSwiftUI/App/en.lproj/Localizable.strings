@@ -7,4 +7,6 @@
 */
 
 "top_view_button_airport" = "空港リスト";
-"top_view_button_product" = "商品ページ";
+"top_view_button_product" = "商品詳細";
+
+"airport_list_view_navi_title" = "SIM卡的領取方法";

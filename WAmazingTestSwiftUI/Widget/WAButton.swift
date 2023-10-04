@@ -15,11 +15,19 @@ struct WAButton: View {
     var body: some View {
         Button(action: clicked) {
             Text(title)
-                .padding(10)
                 .font(.system(size: 16, weight: .bold))
         }
-        .foregroundColor(.white)
-        .background(Color(.buttonNormalPink))
-        .cornerRadius(10)
+        .buttonStyle(WAButtonStyle())
+    }
+}
+
+struct WAButtonStyle: ButtonStyle {
+
+    func makeBody(configuration: Self.Configuration) -> some View {
+        configuration.label
+            .padding()
+            .foregroundColor(.white)
+            .background(configuration.isPressed ? Color(.buttonPressedPink) : Color(.buttonNormalPink))
+            .cornerRadius(10)
     }
 }
