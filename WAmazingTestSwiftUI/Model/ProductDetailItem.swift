@@ -8,12 +8,61 @@
 import Foundation
 
 public struct ProductDetailItem: Decodable {
-    public let price: Int
-    public let name: String
-    public let description: String
-    public let netContent: String
-    public let ingredient: String
-    public let images: [String]
+    
+    public var price: Int
+    public var name: String
+    public var description: String
+    public var netContent: String
+    public var ingredient: String
+    public var images: [String]
+    public var amountLimit: Int
+    
+    enum CodingKeys: String, CodingKey {
+        case price
+        case name
+        case description
+        case netContent
+        case ingredient
+        case images
+    }
+    
+    static let empty = ProductDetailItem(
+        price: 0,
+        name: "",
+        description: "",
+        netContent: "",
+        ingredient: "",
+        images: [],
+        amountLimit: 0
+    )
+    
+    func toProductDetailViewItem(currency: String) -> ProductDetailTitleViewItem {
+        ProductDetailTitleViewItem(
+            brand: "資生堂",
+            name: name,
+            originalPrice: "\(currency) 1644.14",
+            currentPrice: "\(currency) 1494.67",
+            jpy: "JPY \(price.withCommas())",
+            amountLimit: amountLimit,
+            time: "8小時27分",
+            pickUpDateTime: "2023/04/17 13:00:00",
+            pickUpLocation: "JR成田機場站"
+        )
+    }
+}
+
+extension ProductDetailItem {
+    
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        price = try container.decode(Int.self, forKey: .price)
+        name = try container.decode(String.self, forKey: .name)
+        description = try container.decode(String.self, forKey: .description)
+        netContent = try container.decode(String.self, forKey: .netContent)
+        ingredient = try container.decode(String.self, forKey: .ingredient)
+        images = try container.decode([String].self, forKey: .images)
+        amountLimit = 100
+    }
 }
 
 //{

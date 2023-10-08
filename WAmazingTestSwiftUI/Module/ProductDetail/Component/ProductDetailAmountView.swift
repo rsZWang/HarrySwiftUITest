@@ -9,14 +9,18 @@ import SwiftUI
 
 struct ProductDetailAmountView: View {
     
-    @State private var amount = 0
+    @ObservedObject var viewModel: ProductDetailViewModel
+    
+    private var amountLimit: Int {
+        viewModel.detail.amountLimit
+    }
     
     private var minusButtonDisabled: Bool {
-        amount <= 0
+        viewModel.amount <= 0
     }
     
     private var plusButtonDisabled: Bool {
-        amount >= 100
+        viewModel.amount >= viewModel.detail.amountLimit
     }
     
     var body: some View {
@@ -25,13 +29,13 @@ struct ProductDetailAmountView: View {
             
             HStack(spacing: 0) {
                 HStack(spacing: 10) {
-                    Button(action: { amount -= 1 }) {
+                    Button(action: { viewModel.minusAmount() }) {
                         Image(systemName: "minus")
                     }
                     .tint(minusButtonDisabled ? .gray : .buttonNormalPink)
                     .disabled(minusButtonDisabled)
                     
-                    Text("\(amount)")
+                    Text("\(viewModel.amount)")
                         .frame(minWidth: 20)
                         .padding(
                             EdgeInsets(
@@ -44,7 +48,7 @@ struct ProductDetailAmountView: View {
                         .background(Color.airportSelectionGrey)
                         .cornerRadius(2)
                     
-                    Button(action: { amount += 1 }) {
+                    Button(action: { viewModel.plusAmount() }) {
                         Image(systemName: "plus")
                     }
                     .tint(plusButtonDisabled ? .gray : .buttonNormalPink)
@@ -52,9 +56,16 @@ struct ProductDetailAmountView: View {
                 }
                 .padding([.leading, .trailing])
                 
-                makeButton {
-                    
+                Button(action: { viewModel.putInCart() }) {
+                    HStack(spacing: 10) {
+                        Image(systemName: "cart")
+                            .font(.system(size: 18, weight: .bold))
+                        
+                        Text("product_detail_button_put_in_cart".localised)
+                            .font(.system(size: 20, weight: .bold))
+                    }
                 }
+                .buttonStyle(ShopButtonStyle())
                 .padding([.top, .bottom], 10)
                 .padding(.trailing)
             }
@@ -67,19 +78,6 @@ struct ProductDetailAmountView: View {
         Rectangle()
             .frame(height: 0.7)
             .foregroundColor(.gray)
-    }
-    
-    private func makeButton(action: @escaping () -> ()) -> some View {
-        Button(action: action) {
-            HStack(spacing: 10) {
-                Image(systemName: "cart")
-                    .font(.system(size: 18, weight: .bold))
-                
-                Text("加入購物車")
-                    .font(.system(size: 20, weight: .bold))
-            }
-        }
-        .buttonStyle(ShopButtonStyle())
     }
 }
 
@@ -96,6 +94,6 @@ fileprivate struct ShopButtonStyle: ButtonStyle {
 
 struct ProductDetailAmountView_Previews: PreviewProvider {
     static var previews: some View {
-        ProductDetailAmountView()
+        ProductDetailAmountView(viewModel: ProductDetailViewModel())
     }
 }

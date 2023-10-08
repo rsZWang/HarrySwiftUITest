@@ -8,12 +8,19 @@
 import SwiftUI
 
 struct ProductDetailTitleView: View {
+    
+    @ObservedObject var viewModel: ProductDetailViewModel
+    
+    private var item: ProductDetailTitleViewItem {
+        viewModel.titleItem
+    }
+    
     var body: some View {
         VStack(spacing: 0) {
             
             // Title section
             HStack(spacing: 10) {
-                makeTitle(brand: "資生堂", name: "光采無瑕妝前凝霜 40g")
+                makeTitle(brand: item.brand, name: item.name)
                 Spacer()
                 makeButton()
             }
@@ -21,9 +28,9 @@ struct ProductDetailTitleView: View {
             // Price Section
             HStack {
                 makePrice(
-                    original: "NT$ 1644.14",
-                    current: "NT$ 1494.67",
-                    yen: "JPY 6,500"
+                    original: item.originalPrice,
+                    current: item.currentPrice,
+                    jpy: item.jpy
                 )
                 Spacer()
             }
@@ -40,10 +47,10 @@ struct ProductDetailTitleView: View {
             HStack {
                 Spacer()
                 Button(action: {}) {
-                    Text("選擇取貨機場")
+                    Text("product_detail_button_pick_up_location".localised)
                         .font(.system(size: 18))
-                        .foregroundColor(.buttonNormalPink)
                 }
+                .foregroundColor(.buttonNormalPink)
             }
             .padding(.top, 16)
         }
@@ -54,11 +61,11 @@ struct ProductDetailTitleView: View {
         VStack(alignment: .leading, spacing: 6) {
             HStack(spacing: 2) {
                 Image(systemName: "tag")
-                    .foregroundColor(.buttonNormalPink)
+                    .foregroundColor(.waPink)
                 
                 Text(brand)
                     .font(.system(size: 14))
-                    .foregroundColor(.buttonNormalPink)
+                    .foregroundColor(.waPink)
             }
             
             Text(name)
@@ -69,22 +76,29 @@ struct ProductDetailTitleView: View {
     
     private func makeButton() -> some View {
         HStack(spacing: 6) {
-            makeButton(image: "square.and.arrow.up")
-            makeButton(image: "heart")
+            makeButton(image: "square.and.arrow.up") {
+                
+            }
+            .foregroundColor(.black)
+            
+            makeButton(image: viewModel.isLiked ? "heart.fill" : "heart") {
+                viewModel.toggleLike()
+            }
+            .foregroundColor(viewModel.isLiked ? .buttonNormalPink : .black)
         }
     }
     
-    private func makeButton(image: String) -> some View {
-        Button(action: {}) {
+    private func makeButton(image: String, action: @escaping () -> ()) -> some View {
+        Button(action: action) {
             Image(systemName: image)
                 .padding(10)
                 .background(Color.airportSelectionGrey)
                 .clipShape(Circle())
         }
-        .foregroundColor(.black)
+        
     }
     
-    private func makePrice(original: String, current: String, yen: String) -> some View {
+    private func makePrice(original: String, current: String, jpy: String) -> some View {
         VStack(alignment: .leading, spacing: 0) {
             Text(original)
                 .font(.system(size: 14))
@@ -94,9 +108,9 @@ struct ProductDetailTitleView: View {
             HStack(alignment: .bottom, spacing: 6) {
                 Text(current)
                     .font(.system(size: 24, weight: .medium))
-                    .foregroundColor(.buttonNormalPink)
+                    .foregroundColor(.waPink)
                 
-                Text(yen)
+                Text(jpy)
                     .font(.system(size: 13))
                     .foregroundColor(.black)
                     .padding(.bottom, 2)
@@ -104,7 +118,7 @@ struct ProductDetailTitleView: View {
             .padding(.top, 6)
             
             HStack(spacing: 4) {
-                Text("免稅價格")
+                Text("product_detail_title_tax_free_price".localised)
                     .font(.system(size: 16))
                     .foregroundColor(.black)
                 
@@ -125,7 +139,11 @@ struct ProductDetailTitleView: View {
                     .frame(width: 18, height: 18)
                     .scaledToFit()
                 
-                Text("每筆訂單限購20件")
+                let string = String(
+                    format: "product_detail_desc_amount_limit".localised,
+                    item.amountLimit
+                )
+                Text(string)
                     .font(.system(size: 16))
                     .foregroundColor(.black)
             }
@@ -136,7 +154,13 @@ struct ProductDetailTitleView: View {
                     .frame(width: 18, height: 18)
                     .scaledToFit()
                 
-                Text("8小時27分 前訂購，最快可於 2023/04/17 13:00:00 取貨。（JR成田機場站）")
+                let string = String(
+                    format: "product_detail_desc_date_time_location".localised,
+                    item.time,
+                    item.pickUpDateTime,
+                    item.pickUpLocation
+                )
+                Text(string)
                     .font(.system(size: 16))
                     .foregroundColor(.black)
             }
@@ -145,8 +169,32 @@ struct ProductDetailTitleView: View {
     }
 }
 
+struct ProductDetailTitleViewItem {
+    let brand: String
+    let name: String
+    let originalPrice: String
+    let currentPrice: String
+    let jpy: String
+    let amountLimit: Int
+    let time: String
+    let pickUpDateTime: String
+    let pickUpLocation: String
+    
+    static let empty = ProductDetailTitleViewItem(
+        brand: "",
+        name: "",
+        originalPrice: "",
+        currentPrice: "",
+        jpy: "",
+        amountLimit: 0,
+        time: "",
+        pickUpDateTime: "",
+        pickUpLocation: ""
+    )
+}
+
 struct ProductDetailTitleView_Previews: PreviewProvider {
     static var previews: some View {
-        ProductDetailTitleView()
+        ProductDetailTitleView(viewModel: ProductDetailViewModel())
     }
 }

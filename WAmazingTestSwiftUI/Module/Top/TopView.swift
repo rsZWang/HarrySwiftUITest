@@ -9,34 +9,17 @@ import SwiftUI
 
 struct TopView: View {
     
-//    @State private var isPresentingAirportListView = false
-//    @State private var isPresentingProductDetailView = false
-    
     var body: some View {
         NavigationView {
             VStack {
                 NavigationLink(destination: AirportListView()) {
-//                    WAButton(
-//                        text: Text("top_view_button_airport".localised)
-//                            .font(.system(size: 16, weight: .bold))
-//                    ) {
-//                        isPresentingAirportListView = true
-//                    }
-                    
                     Text("top_view_button_airport".localised)
                         .font(.system(size: 16, weight: .bold))
                 }
                 .buttonStyle(NavButtonStyle()) 
                 .padding(10)
                 
-                NavigationLink(destination: ProductDetailView()) {
-//                    WAButton(text: Text("top_view_button_product".localised)
-//                        .font(.system(size: 16, weight: .bold))
-//                    ) {
-//                        isPresentingProductDetailView = true
-//
-//                    }
-                    
+                NavigationLink(destination: ProductDetailView(viewModel: ProductDetailViewModel())) {
                     Text("top_view_button_product".localised)
                         .font(.system(size: 16, weight: .bold))
                 }

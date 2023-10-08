@@ -9,13 +9,19 @@ import SwiftUI
 
 struct AirportListView: View {
     
-    let airportList = Bundle.main.decode(Airports.self, from: "airport_list.json")
+    private let airportList = Bundle.main.decode(Airports.self, from: "airport_list.json")
     
     var body: some View {        
         List(airportList.airports) { airport in
-            NavigationLink(destination: AirportListView()) {
-                Text(airport.name)
+            // Wrap in Button for making navigation click not work
+            Button(action: {}) {
+                NavigationLink(
+                    destination: Text(airport.name)
+                ) {
+                    Text(airport.name)
+                }
             }
+            .buttonStyle(PlainButtonStyle())
         }
         .navigationBarBackButtonHidden()
         .navigationBarItems(leading: WANavBackButton())

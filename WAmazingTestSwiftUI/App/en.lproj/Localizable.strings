@@ -11,3 +11,15 @@
 "top_view_button_product" = "商品詳細";
 
 "airport_list_view_navi_title" = "SIM卡的領取方法";
+
+"product_detail_title_product_desc" = "商品說明";
+"product_detail_title_product_volume" = "內容量";
+"product_detail_title_product_ingredient" = "成分/原材料";
+"product_detail_title_tax_free_price" = "免稅價格";
+"product_detail_desc_amount_limit" = "每筆訂單限購 %d 件";
+"product_detail_desc_date_time_location" = "%@ 前訂購，最快可於 %@ 取貨。（%@）";
+
+"product_detail_button_pick_up_location" = "選擇取貨機場";
+"product_detail_button_close" = "關閉";
+"product_detail_button_more" = "看更多";
+"product_detail_button_put_in_cart" = "加入購物車";

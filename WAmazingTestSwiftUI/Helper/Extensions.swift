@@ -12,6 +12,14 @@ public extension String {
     var localised: String { NSLocalizedString(self, comment: "") }
 }
 
+public extension Int {
+    func withCommas() -> String {
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = .decimal
+        return numberFormatter.string(from: NSNumber(value: self)) ?? ""
+    }
+}
+
 public extension Bundle {
     func decode<T: Decodable>(_ type: T.Type, from file: String) -> T {
         guard let url = self.url(forResource: file, withExtension: nil) else {
