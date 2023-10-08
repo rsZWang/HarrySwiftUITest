@@ -9,28 +9,53 @@ import SwiftUI
 
 struct TopView: View {
     
-    @State private var isPresentingAirportListView = false
-    @State private var isPresentingProductDetailView = false
+//    @State private var isPresentingAirportListView = false
+//    @State private var isPresentingProductDetailView = false
     
     var body: some View {
         NavigationView {
             VStack {
-                NavigationLink(destination: AirportListView(), isActive: $isPresentingAirportListView) {
-                    WAButton(title: "top_view_button_airport".localised) {
-                        isPresentingAirportListView = true
-                    }
+                NavigationLink(destination: AirportListView()) {
+//                    WAButton(
+//                        text: Text("top_view_button_airport".localised)
+//                            .font(.system(size: 16, weight: .bold))
+//                    ) {
+//                        isPresentingAirportListView = true
+//                    }
+                    
+                    Text("top_view_button_airport".localised)
+                        .font(.system(size: 16, weight: .bold))
                 }
-                .buttonStyle(PlainButtonStyle())
+                .buttonStyle(NavButtonStyle()) 
                 .padding(10)
                 
-                NavigationLink(destination: AirportListView(), isActive: $isPresentingProductDetailView) {
-                    WAButton(title: "top_view_button_product".localised) {
-                        isPresentingProductDetailView = true
-                    }
+                NavigationLink(destination: ProductDetailView()) {
+//                    WAButton(text: Text("top_view_button_product".localised)
+//                        .font(.system(size: 16, weight: .bold))
+//                    ) {
+//                        isPresentingProductDetailView = true
+//
+//                    }
+                    
+                    Text("top_view_button_product".localised)
+                        .font(.system(size: 16, weight: .bold))
                 }
+                .buttonStyle(NavButtonStyle())
+                .padding(10)
             }
-            .navigationTitle("トップ")
+            .navigationTitle("top_view_nav_title".localised)
         }
+    }
+}
+
+fileprivate struct NavButtonStyle: ButtonStyle {
+
+    func makeBody(configuration: Self.Configuration) -> some View {
+        configuration.label
+            .padding()
+            .foregroundColor(.white)
+            .background(configuration.isPressed ? Color(.buttonPressedPink) : Color(.buttonNormalPink))
+            .cornerRadius(10)
     }
 }
 

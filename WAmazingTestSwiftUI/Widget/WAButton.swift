@@ -9,13 +9,22 @@ import SwiftUI
 
 struct WAButton: View {
     
-    var title: String
+    var text: Text
+    var icon: Image? = nil
     var clicked: (() -> Void)
     
     var body: some View {
         Button(action: clicked) {
-            Text(title)
-                .font(.system(size: 16, weight: .bold))
+            HStack(spacing: 10) {
+                if let icon = icon {
+                    icon
+                }
+            
+                Image(systemName: "cart")
+                    .font(.system(size: 20, weight: .bold))
+                
+                text
+            }
         }
         .buttonStyle(WAButtonStyle())
     }
@@ -25,6 +34,7 @@ struct WAButtonStyle: ButtonStyle {
 
     func makeBody(configuration: Self.Configuration) -> some View {
         configuration.label
+            .frame(maxWidth: .infinity)
             .padding()
             .foregroundColor(.white)
             .background(configuration.isPressed ? Color(.buttonPressedPink) : Color(.buttonNormalPink))

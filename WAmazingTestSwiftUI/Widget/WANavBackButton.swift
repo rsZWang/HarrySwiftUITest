@@ -18,6 +18,7 @@ struct WANavBackButton: View {
             Image(systemName: "chevron.left")
                 .aspectRatio(contentMode: .fit)
                 .foregroundColor(.black)
+                .font(.system(size: 18, weight: .medium))
         }
     }
 }

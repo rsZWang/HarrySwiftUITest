@@ -11,17 +11,7 @@ struct AirportListView: View {
     
     let airportList = Bundle.main.decode(Airports.self, from: "airport_list.json")
     
-    var body: some View {
-//        VStack {
-//            Text("airport_list_view_navi_title".localised)
-//                .navigationBarTitleDisplayMode(.inline)
-//                .toolbar {
-//                    ToolbarItem(placement: .principal) {
-//
-//                    }
-//                }
-//        }
-        
+    var body: some View {        
         List(airportList.airports) { airport in
             NavigationLink(destination: AirportListView()) {
                 Text(airport.name)

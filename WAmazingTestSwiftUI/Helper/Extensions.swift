@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 public extension String {
     var localised: String { NSLocalizedString(self, comment: "") }
@@ -25,12 +26,8 @@ public extension Bundle {
             let loaded = try decoder.decode(T.self, from: data)
             return loaded
         } catch {
-            print("HERE: \(error)")
+            print("Decoder Error: \(error)")
             fatalError("Failed to decode \(file) from bundle.")
         }
-//        guard let loaded = try? decoder.decode(T.self, from: data) else {
-//            fatalError("Failed to decode \(file) from bundle.")
-//        }
-//        return loaded
     }
 }
